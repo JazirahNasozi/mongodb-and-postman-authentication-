@@ -1,5 +1,7 @@
 const express = require('express');
 const connectDB = require('./db');
+
+const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -15,6 +17,17 @@ app.use(favicon(path.join(__dirname, 'favicon.ico')));
 // --- Body parser middleware ---
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Middleware to handle CORS issues
+const corsOptions = {
+    origin: '*', // Allow all origins (for development purposes)
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 // ✅ Connect to MongoDB first
 connectDB();
